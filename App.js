@@ -1,9 +1,13 @@
 import { Camera, CameraType } from 'expo-camera';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useRef, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 export default function App() {
   const [permission, requestPermission] = Camera.useCameraPermissions()
+  const [type, setType] = useState(CameraType.back)
+  const CameraRef = useRef()
+
   if (!permission) {
     return (
       <View>
@@ -22,11 +26,19 @@ export default function App() {
     )
   }
 
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Camera type={CameraType.front}>
+      <Camera ref={CameraRef} type={type} style={{ flex: 1, justifyContent: 'flex-end' }}>
+        <View style={styles.bottom}>
+          <TouchableOpacity activeOpacity={0.6} onPress={async () => {
+            setType(type == CameraType.back ? CameraType.front : CameraType.back)
+          }}>
+            <View style={styles.record}>
 
+            </View>
+          </TouchableOpacity>
+        </View>
       </Camera>
       <StatusBar style="auto" />
     </View>
@@ -37,7 +49,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  bottom: {
+    padding: 48,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  record: {
+    backgroundColor: '#fa2d25',
+    width: 80,
+    height: 80,
+    borderRadius: '50%',
+    borderColor: 'lightgray',
+    borderWidth: 6,
+  }
 });
