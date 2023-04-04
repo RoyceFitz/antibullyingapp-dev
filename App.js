@@ -1,12 +1,53 @@
 import { Camera, CameraType } from 'expo-camera';
 import { StatusBar } from 'expo-status-bar';
 import { useRef, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import * as React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import { createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+const MyStack = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{title: 'Welcome'}}
+        />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const HomeScreen = ({navigation}) => {
+  return (
+    <Button
+      title="Go to Jane's profile"
+      onPress={() =>
+        navigation.navigate('Profile', {name: 'this.state.name'})
+      }
+    />
+  );
+};
+const ProfileScreen = ({navigation, route}) => {
+  return <Text>This is {route.params.name}'s profile</Text>;
+};
 
 export default function App() {
   const [permission, requestPermission] = Camera.useCameraPermissions()
   const [type, setType] = useState(CameraType.back)
   const CameraRef = useRef()
+  const App = () => {
+    return (
+      <NavigationContainer>
+        {/* Rest of your app code */}
+      </NavigationContainer>
+    );
+  };
 
   if (!permission) {
     return (
@@ -26,6 +67,10 @@ export default function App() {
     )
   }
 
+
+  state = {
+    name: 'Your Name',
+  }
 
   return (
     <View style={styles.container}>
