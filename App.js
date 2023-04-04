@@ -72,6 +72,21 @@ export default function App() {
     name: 'Your Name',
   }
 
+  const MyStack = () => {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{title: 'Welcome'}}
+          />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Camera ref={CameraRef} type={type} style={{ flex: 1, justifyContent: 'flex-end' }}>
